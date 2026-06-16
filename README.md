@@ -32,3 +32,7 @@ Os dados são simulados através de um mock local, sem integração com backend.
 npm install
 
 npx expo start
+
+## Video
+
+https://youtu.be/6DIuKqNw2e0
