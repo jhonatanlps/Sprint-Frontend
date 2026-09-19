@@ -1,25 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   View,
   FlatList,
   Text,
   TouchableOpacity,
+  ActivityIndicator
 } from "react-native";
 
 import { SensorCard } from "../components/SensorCard";
 
-import { sensoresMock } from "../data/sensoresMock";
+import { listarSensores } from "../services/sensorService";
+
+import { Sensor } from "../types/Sensor";
 
 export default function ListaSensoresScreen({
   navigation,
 }: any) {
-  const [sensores, setSensores] =
-    useState(sensoresMock);
 
-  const ativos = sensores.filter(
-    (s) => s.status === "Ativo"
-  ).length;
+  useEffect(() => {
+    carregarDados();
+  }, []);
+
+  const [sensores, setSensores] = useState<Sensor[]>([]);
+  const ativos = sensores.filter((s) => s.status === "Ativo").length;
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function carregarDados() {
+    try {
+      setCarregando(true);
+      setErro(null);
+    
+    const [listaSensores] = await Promise.all([
+      listarSensores(),
+    ]);
+    
+    setSensores(listaSensores);
+
+    } catch (error) {
+      setErro("Não foi possível carregar os dados.\nVerifique se o backend está rodando em http://localhost:8080");
+    } finally {
+      setCarregando(false);
+    }
+  }
 
   return (
     <View
@@ -29,6 +53,36 @@ export default function ListaSensoresScreen({
         padding: 15,
       }}
     >
+
+       {/* Indicador de carregamento */}
+      {carregando && (
+      <ActivityIndicator size="large" color="#fff" style={{ marginTop: 40 }} />
+      )}
+      
+      {/* Mensagem de erro */}
+      {erro && (
+      <View 
+        style={{
+          marginTop: 24,
+          padding: 16,
+          backgroundColor: "rgba(255, 80, 80, 0.2)",
+          borderRadius: 12,
+          borderWidth: 1,
+          borderColor: "rgba(255, 80, 80, 0.5)",
+        }}
+      >
+        <Text 
+          style={{
+            fontSize: 14,
+            color: "#fff",
+            textAlign: "center",
+            lineHeight: 22,
+          }}
+        >{erro}</Text>
+      </View>
+      )}
+
+      {!carregando && !erro && (<>
       <View
         style={{
           backgroundColor: "#1E3A5F",
@@ -37,6 +91,7 @@ export default function ListaSensoresScreen({
           marginBottom: 20,
         }}
       >
+        
         <Text
           style={{
             color: "#FFF",
@@ -54,7 +109,9 @@ export default function ListaSensoresScreen({
         <Text style={{ color: "#FFF" }}>
           Sensores Ativos: {ativos}
         </Text>
+        
       </View>
+      </>)}
 
       <TouchableOpacity
         style={{
