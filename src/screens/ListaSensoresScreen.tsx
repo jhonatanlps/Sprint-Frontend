@@ -22,6 +22,15 @@ export default function ListaSensoresScreen({
     carregarDados();
   }, []);
 
+  // Pode colocar isso logo abaixo dos seus imports na ListaSensoresScreen
+  async function buscarConfiguracoesDoApp() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Simula que o backend devolveu as configurações do usuário
+        resolve({ mostrarSensoresAtivos: true, versao: "1.0.0" });
+      }, 500);
+    });
+  }
   const [sensores, setSensores] = useState<Sensor[]>([]);
   const ativos = sensores.filter((s) => s.status === "Ativo").length;
   const [carregando, setCarregando] = useState(true);
@@ -32,11 +41,14 @@ export default function ListaSensoresScreen({
       setCarregando(true);
       setErro(null);
     
-    const [listaSensores] = await Promise.all([
+    const [listaSensores, configuracoes] = await Promise.all([
       listarSensores(),
+      buscarConfiguracoesDoApp()
     ]);
     
     setSensores(listaSensores);
+
+    console.log("Configurações carregadas:", configuracoes);
 
     } catch (error) {
       setErro("Não foi possível carregar os dados.\nVerifique se o backend está rodando em http://localhost:8080");
