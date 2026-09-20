@@ -148,7 +148,7 @@ export default function ListaSensoresScreen({
             sensor={item}
             onPress={() =>
               navigation.navigate("Detalhe", {
-                sensor: item,
+                sensorId: item.id,
               })
             }
           />
