@@ -2,7 +2,7 @@
 
 Aplicativo mobile desenvolvido com **React Native**, **Expo** e **TypeScript** para gerenciamento de sensores industriais.
 
-O aplicativo permite visualizar, cadastrar, consultar, atualizar e excluir sensores através da integração com uma API REST desenvolvida em Spring Boot.
+O aplicativo permite visualizar, cadastrar, consultar sensores através da integração com uma API REST desenvolvida em Spring Boot.
 
 ## Tecnologias
 
@@ -204,18 +204,6 @@ export async function criarSensor(sensor: any) {
   const response = await api.post("/sensores", sensor);
   return response.data;
 }
-
-export async function atualizarSensor(
-  id: number,
-  sensor: any
-) {
-  const response = await api.put(`/sensores/${id}`, sensor);
-  return response.data;
-}
-
-export async function excluirSensor(id: number) {
-  await api.delete(`/sensores/${id}`);
-}
 ```
 
 ## Endpoints utilizados
@@ -280,8 +268,6 @@ No aplicativo, teste:
 1. Visualização da lista de sensores;
 2. Cadastro de um sensor;
 3. Visualização dos detalhes;
-4. Alteração de um sensor;
-5. Exclusão de um sensor.
 
 Cada operação deverá realizar uma requisição para o backend.
 
