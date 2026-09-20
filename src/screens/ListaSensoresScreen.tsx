@@ -123,7 +123,6 @@ export default function ListaSensoresScreen({
         </Text>
         
       </View>
-      </>)}
 
       <TouchableOpacity
         style={{
@@ -166,6 +165,7 @@ export default function ListaSensoresScreen({
           />
         )}
       />
+    </>)}
     </View>
   );
 }
