@@ -402,6 +402,7 @@ Demonstração do projeto:
 
 [https://www.youtube.com/watch?v=gu39oQv1zAI](https://www.youtube.com/watch?v=gu39oQv1zAI)
 
-## Repositório
+## Repositórios
 
+[GitHub - Sprint Frontend](https://github.com/jhonatanlps/Sprint-Frontend)
 [GitHub - Sprint Backend](https://github.com/jhonatanlps/Sprint-Backend)
